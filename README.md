@@ -12,6 +12,12 @@
 
 Deployment manifests and operator notes for **[kwd](https://github.com/hrodrig/kwd)** — `docker run`, in-cluster CronJob/Deployment, standalone cron/systemd. **App source and releases:** [github.com/hrodrig/kwd](https://github.com/hrodrig/kwd).
 
+> **Early development (pre-1.0).** Upstream **kwd** is under active development
+> until **v1.0.0**. Do not rely on these manifests as a sole production readiness
+> or alerting path before then. **Use at your own risk** — see the
+> [kwd early-development disclaimer](https://github.com/hrodrig/kwd#early-development-disclaimer)
+> and the [MIT License](./LICENSE) (software provided **“AS IS”**, no warranty).
+
 **Default app image pin:** [`ghcr.io/hrodrig/kwd:v0.2.0`](https://github.com/hrodrig/kwd/releases/tag/v0.2.0).
 
 **Policies:** [Community and policies](#community-and-policies), [community standards](#community-standards) — changelog, contributing, security, code of conduct, agent guidelines.

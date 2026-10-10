@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kwd-check
+  namespace: kwd
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          serviceAccountName: kwd
+          restartPolicy: Never
+          containers:
+            - name: kwd
+              image: ghcr.io/hrodrig/kwd:v0.2.0
+              args: ["check", "--config", "/config/kwd.yml"]
+              envFrom:
+                - secretRef:
+                    name: kwd-notify
+                    optional: true
+              volumeMounts:
+                - name: config
+                  mountPath: /config
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+          volumes:
+            - name: config
+              configMap:
+                name: kwd-config

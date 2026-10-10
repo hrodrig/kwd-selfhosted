@@ -1,0 +1,32 @@
+# Single-pass readiness check (interval: 0). Exit 0 = ready, 1 = not-ready/error.
+# Override resources for your cluster. Optional Slack: set KWD_SLACK_WEBHOOK.
+
+cluster:
+  name: "example-cluster"
+  environment: "dev"
+
+kube:
+  context: ""
+
+client:
+  id: ""
+
+resources:
+  - deployment.default/my-app
+  - statefulset.default/my-db
+
+interval: 0
+
+retry:
+  attempts: 3
+  initial_backoff: 1s
+  max_backoff: 8s
+
+timeout: 10s
+color: auto
+log_format: text
+dry_run: false
+
+# notifications:
+#   sinks:
+#     - type: slack

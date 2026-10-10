@@ -1,0 +1,42 @@
+# Daemon loop: check → wait → check. Notify on ready ↔ not-ready transitions.
+# HTTP surface for probes/metrics (daemon only). Prefer loopback listen.
+# Slack: set KWD_SLACK_WEBHOOK when sinks are enabled.
+
+cluster:
+  name: "example-cluster"
+  environment: "dev"
+
+kube:
+  context: ""
+
+client:
+  id: ""
+
+resources:
+  - deployment.default/my-app
+  - statefulset.default/my-db
+
+interval: 60
+
+http:
+  listen: "0.0.0.0:8080"
+  health_path: "/healthz"
+  metrics_path: "/metrics"
+
+confirm_alert: 1
+confirm_ok: 1
+repeat_while_firing: false
+
+retry:
+  attempts: 3
+  initial_backoff: 1s
+  max_backoff: 8s
+
+timeout: 10s
+color: auto
+log_format: text
+dry_run: false
+
+notifications:
+  sinks:
+    - type: slack

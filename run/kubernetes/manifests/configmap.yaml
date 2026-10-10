@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kwd-config
+  namespace: kwd
+data:
+  # CronJob single-pass (interval: 0)
+  kwd.yml: |
+    cluster:
+      name: "in-cluster"
+      environment: "prod"
+    kube:
+      context: ""
+    client:
+      id: "kwd-cron"
+    resources:
+      - deployment.default/my-app
+      - statefulset.default/my-db
+    interval: 0
+    retry:
+      attempts: 3
+      initial_backoff: 1s
+      max_backoff: 8s
+    timeout: 10s
+    color: never
+    log_format: text
+    dry_run: false
+    notifications:
+      sinks:
+        - type: slack
+  # Deployment daemon (interval > 0 + http.listen)
+  kwd-daemon.yml: |
+    cluster:
+      name: "in-cluster"
+      environment: "prod"
+    kube:
+      context: ""
+    client:
+      id: "kwd-daemon"
+    resources:
+      - deployment.default/my-app
+      - statefulset.default/my-db
+    interval: 60
+    http:
+      listen: "0.0.0.0:8080"
+      health_path: "/healthz"
+      metrics_path: "/metrics"
+    confirm_alert: 1
+    confirm_ok: 1
+    repeat_while_firing: false
+    retry:
+      attempts: 3
+      initial_backoff: 1s
+      max_backoff: 8s
+    timeout: 10s
+    color: never
+    log_format: text
+    dry_run: false
+    notifications:
+      sinks:
+        - type: slack

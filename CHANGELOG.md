@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- README: early-development (pre-1.0) disclaimer pointing at upstream kwd — not for sole production readiness/alerting until v1.0.0; use at your own risk.
+
 ## [0.1.0] - 2026-10-10
 
 ### Added

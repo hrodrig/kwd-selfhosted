@@ -2,7 +2,7 @@
 
 This tree holds **how to run kwd**, not the CLI source. Product docs: [kwd](https://github.com/hrodrig/kwd).
 
-**Image pin (default in manifests):** `ghcr.io/hrodrig/kwd:v0.2.0`
+**Image pin (default in manifests):** `ghcr.io/hrodrig/kwd:v0.3.0`
 
 | Directory | Purpose |
 |-----------|---------|

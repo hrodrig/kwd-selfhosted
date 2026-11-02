@@ -17,7 +17,7 @@ spec:
       serviceAccountName: kwd
       containers:
         - name: kwd
-          image: ghcr.io/hrodrig/kwd:v0.2.0
+          image: ghcr.io/hrodrig/kwd:v0.3.0
           args: ["check", "--config", "/config/kwd-daemon.yml"]
           ports:
             - name: http

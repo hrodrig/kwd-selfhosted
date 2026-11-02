@@ -1,6 +1,6 @@
 # kwd-selfhosted
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue)](https://github.com/hrodrig/kwd-selfhosted/releases)
+[![Version](https://img.shields.io/badge/version-0.1.1-blue)](https://github.com/hrodrig/kwd-selfhosted/releases)
 [![Release](https://img.shields.io/github/v/release/hrodrig/kwd-selfhosted?label=release)](https://github.com/hrodrig/kwd-selfhosted/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![App image on GHCR](https://img.shields.io/badge/image-ghcr.io%2Fhrodrig%2Fkwd-2496ED?logo=github)](https://github.com/hrodrig/kwd/pkgs/container/kwd)
@@ -12,7 +12,13 @@
 
 Deployment manifests and operator notes for **[kwd](https://github.com/hrodrig/kwd)** — `docker run`, in-cluster CronJob/Deployment, standalone cron/systemd. **App source and releases:** [github.com/hrodrig/kwd](https://github.com/hrodrig/kwd).
 
-**Default app image pin:** [`ghcr.io/hrodrig/kwd:v0.2.0`](https://github.com/hrodrig/kwd/releases/tag/v0.2.0).
+> **Early development (pre-1.0).** Upstream **kwd** is under active development
+> until **v1.0.0**. Do not rely on these manifests as a sole production readiness
+> or alerting path before then. **Use at your own risk** — see the
+> [kwd early-development disclaimer](https://github.com/hrodrig/kwd#early-development-disclaimer)
+> and the [MIT License](./LICENSE) (software provided **“AS IS”**, no warranty).
+
+**Default app image pin:** [`ghcr.io/hrodrig/kwd:v0.3.0`](https://github.com/hrodrig/kwd/releases/tag/v0.3.0).
 
 **Policies:** [Community and policies](#community-and-policies), [community standards](#community-standards) — changelog, contributing, security, code of conduct, agent guidelines.
 
@@ -94,7 +100,7 @@ kwd check --config /tmp/kwd.yml --dry-run
 
 **Goal:** one container, no Compose file. Image is **distroless** (no shell).
 
-**Image:** `ghcr.io/hrodrig/kwd:v0.2.0`
+**Image:** `ghcr.io/hrodrig/kwd:v0.3.0`
 
 ### One-shot (single-pass)
 
@@ -104,7 +110,7 @@ docker run --rm \
   -v "$(pwd)/run/examples/kwd-minimal.yml:/config/kwd.yml:ro" \
   -e KUBECONFIG=/kube/config \
   -e KWD_SLACK_WEBHOOK \
-  ghcr.io/hrodrig/kwd:v0.2.0 \
+  ghcr.io/hrodrig/kwd:v0.3.0 \
   check --config /config/kwd.yml
 ```
 
@@ -121,7 +127,7 @@ docker run -d --name kwd \
   -e KUBECONFIG=/kube/config \
   -e KWD_SLACK_WEBHOOK \
   -p 127.0.0.1:8080:8080 \
-  ghcr.io/hrodrig/kwd:v0.2.0 \
+  ghcr.io/hrodrig/kwd:v0.3.0 \
   check --config /config/kwd.yml
 ```
 
@@ -143,7 +149,7 @@ docker stop kwd && docker rm kwd
 
 **Goal:** run **kwd** in-cluster with a **ServiceAccount** and **read-only** RBAC (no Helm chart in v0.1.x).
 
-**Image pin in manifests:** `ghcr.io/hrodrig/kwd:v0.2.0`
+**Image pin in manifests:** `ghcr.io/hrodrig/kwd:v0.3.0`
 
 ```bash
 kubectl apply -f run/kubernetes/manifests/namespace.yaml

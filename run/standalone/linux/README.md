@@ -2,7 +2,7 @@
 
 ← [Back to run/standalone](../README.md) · [run/README](../../README.md).
 
-1. Download a **Linux** tarball from **[kwd Releases](https://github.com/hrodrig/kwd/releases)** (e.g. `kwd_v0.2.0_linux_amd64.tar.gz`).
+1. Download a **Linux** tarball from **[kwd Releases](https://github.com/hrodrig/kwd/releases)** (e.g. `kwd_v0.3.0_linux_amd64.tar.gz`).
 2. Extract **`kwd`** (and optionally **`kubectl-kwd`**), then `chmod +x kwd`.
 3. Copy a profile (e.g. [kwd-minimal.yml](../../examples/kwd-minimal.yml)) and edit `resources:`.
 

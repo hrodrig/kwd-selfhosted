@@ -2,7 +2,7 @@
 
 Flat manifests under **[manifests/](manifests/)**. No Helm chart in v0.1.0.
 
-**Image pin:** `ghcr.io/hrodrig/kwd:v0.2.0`
+**Image pin:** `ghcr.io/hrodrig/kwd:v0.3.0`
 
 ## Apply order
 

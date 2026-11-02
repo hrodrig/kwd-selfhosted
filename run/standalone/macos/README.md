@@ -8,4 +8,4 @@
 
 **One-shot / cron:** `crontab -e` with `kwd check --config …` and `interval: 0`.
 
-**Daemon:** run under `launchd` or a terminal multiplexer with `interval > 0`. Homebrew tap for **kwd** is not published yet — use the release binary or `go install github.com/hrodrig/kwd@v0.2.0`.
+**Daemon:** run under `launchd` or a terminal multiplexer with `interval > 0`. Homebrew tap for **kwd** is not published yet — use the release binary or `go install github.com/hrodrig/kwd@v0.3.0`.

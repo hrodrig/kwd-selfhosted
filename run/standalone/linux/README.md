@@ -12,9 +12,12 @@
 export KUBECONFIG=/home/kwd/.kube/config
 # optional: export KWD_SLACK_WEBHOOK=...
 */5 * * * * /usr/local/bin/kwd check --config /etc/kwd/kwd.yml >>/var/log/kwd.log 2>&1
+
+# scheduled healthy digest (always notify, exit still 0/1 from readiness)
+# 45 7 * * 2,6 /usr/local/bin/kwd check --config /etc/kwd/kwd.yml --force-notification >>/var/log/kwd.log 2>&1
 ```
 
-Profile must use `interval: 0` (default in kwd-minimal.yml).
+Profile must use `interval: 0` (default in kwd-minimal.yml). Smoke sinks: `kwd notify test --config /etc/kwd/kwd.yml`.
 
 ## systemd (daemon)
 

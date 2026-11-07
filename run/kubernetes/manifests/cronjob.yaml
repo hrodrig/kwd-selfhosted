@@ -1,3 +1,6 @@
+# Two shapes (pick schedules to taste):
+# - kwd-check: exit 0/1 every few minutes; Slack only when something is not ready
+# - kwd-report: --force-notification for scheduled HEALTH CHECK digests even when healthy
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -17,8 +20,55 @@ spec:
           restartPolicy: Never
           containers:
             - name: kwd
-              image: ghcr.io/hrodrig/kwd:v0.3.0
+              image: ghcr.io/hrodrig/kwd:v0.4.0
               args: ["check", "--config", "/config/kwd.yml"]
+              envFrom:
+                - secretRef:
+                    name: kwd-notify
+                    optional: true
+              volumeMounts:
+                - name: config
+                  mountPath: /config
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+          volumes:
+            - name: config
+              configMap:
+                name: kwd-config
+---
+# Scheduled healthy digest (Slack/Discord via Incoming Webhook). Exit still reflects readiness.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kwd-report
+  namespace: kwd
+spec:
+  # Example: Tue/Sat 07:45 UTC — change for your ops window
+  schedule: "45 7 * * 2,6"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          serviceAccountName: kwd
+          restartPolicy: Never
+          containers:
+            - name: kwd
+              image: ghcr.io/hrodrig/kwd:v0.4.0
+              args:
+                - check
+                - --config
+                - /config/kwd.yml
+                - --force-notification
               envFrom:
                 - secretRef:
                     name: kwd-notify

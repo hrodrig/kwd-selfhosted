@@ -1,6 +1,7 @@
 # Daemon loop: check → wait → check. Notify on ready ↔ not-ready transitions.
-# HTTP surface for probes/metrics (daemon only). Prefer loopback listen.
-# Slack: set KWD_SLACK_WEBHOOK when sinks are enabled.
+# HTTP surface for probes/metrics (daemon only). Prefer loopback listen when possible.
+# In-cluster Service probes usually need 0.0.0.0 — pair with GODEBUG=multipathtcp=0
+# (CVE-2026-98432; primary fix = patched Linux kernel). Slack: KWD_SLACK_WEBHOOK.
 
 cluster:
   name: "example-cluster"

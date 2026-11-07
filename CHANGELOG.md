@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Default application image pin: `ghcr.io/hrodrig/kwd:v0.4.0` (was `v0.3.0`).
+- Kubernetes: second CronJob `kwd-report` with `--force-notification` for scheduled HEALTH CHECK digests; `kwd-check` remains exit-code / alert-on-failure.
+- Daemon Deployment sets `GODEBUG=multipathtcp=0` (CVE-2026-98432 belt-and-suspenders; primary fix is a patched kernel). Document in kubernetes / linux standalone notes (#9).
+
 ## [0.1.1] - 2026-11-02
 
 ### Changed

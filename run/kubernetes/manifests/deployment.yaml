@@ -17,15 +17,20 @@ spec:
       serviceAccountName: kwd
       containers:
         - name: kwd
-          image: ghcr.io/hrodrig/kwd:v0.3.0
-          args: ["check", "--config", "/config/kwd-daemon.yml"]
-          ports:
-            - name: http
-              containerPort: 8080
-          envFrom:
-            - secretRef:
-                name: kwd-notify
-                optional: true
+              image: ghcr.io/hrodrig/kwd:v0.4.0
+              args: ["check", "--config", "/config/kwd-daemon.yml"]
+              ports:
+                - name: http
+                  containerPort: 8080
+              env:
+                # Belt-and-suspenders vs CVE-2026-98432 (Go 1.24+ MPTCP listen default).
+                # Primary fix: patched Linux kernel on nodes. App also disables MPTCP on listen.
+                - name: GODEBUG
+                  value: multipathtcp=0
+              envFrom:
+                - secretRef:
+                    name: kwd-notify
+                    optional: true
           volumeMounts:
             - name: config
               mountPath: /config

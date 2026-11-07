@@ -2,7 +2,7 @@
 
 Run the published **distroless** image with a mounted kubeconfig and YAML profile.
 
-**Image:** `ghcr.io/hrodrig/kwd:v0.3.0`
+**Image:** `ghcr.io/hrodrig/kwd:v0.4.0`
 
 The image has **no shell**. Mount config and kubeconfig as files; pass args after the image name.
 
@@ -16,7 +16,7 @@ docker run --rm \
   -v "$(pwd)/run/examples/kwd-minimal.yml:/config/kwd.yml:ro" \
   -e KUBECONFIG=/kube/config \
   -e KWD_SLACK_WEBHOOK \
-  ghcr.io/hrodrig/kwd:v0.3.0 \
+  ghcr.io/hrodrig/kwd:v0.4.0 \
   check --config /config/kwd.yml
 ```
 
@@ -33,7 +33,7 @@ docker run -d --name kwd \
   -e KUBECONFIG=/kube/config \
   -e KWD_SLACK_WEBHOOK \
   -p 127.0.0.1:8080:8080 \
-  ghcr.io/hrodrig/kwd:v0.3.0 \
+  ghcr.io/hrodrig/kwd:v0.4.0 \
   check --config /config/kwd.yml
 ```
 

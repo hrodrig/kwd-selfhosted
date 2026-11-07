@@ -1,4 +1,5 @@
 # Single-pass readiness check (interval: 0). Exit 0 = ready, 1 = not-ready/error.
+# Cron / CronJob: use as-is for gates; add --force-notification for healthy digests.
 # Override resources for your cluster. Optional Slack: set KWD_SLACK_WEBHOOK.
 
 cluster:

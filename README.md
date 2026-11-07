@@ -18,7 +18,7 @@ Deployment manifests and operator notes for **[kwd](https://github.com/hrodrig/k
 > [kwd early-development disclaimer](https://github.com/hrodrig/kwd#early-development-disclaimer)
 > and the [MIT License](./LICENSE) (software provided **“AS IS”**, no warranty).
 
-**Default app image pin:** [`ghcr.io/hrodrig/kwd:v0.3.0`](https://github.com/hrodrig/kwd/releases/tag/v0.3.0).
+**Default app image pin:** [`ghcr.io/hrodrig/kwd:v0.4.0`](https://github.com/hrodrig/kwd/releases/tag/v0.4.0).
 
 **Policies:** [Community and policies](#community-and-policies), [community standards](#community-standards) — changelog, contributing, security, code of conduct, agent guidelines.
 
@@ -100,7 +100,7 @@ kwd check --config /tmp/kwd.yml --dry-run
 
 **Goal:** one container, no Compose file. Image is **distroless** (no shell).
 
-**Image:** `ghcr.io/hrodrig/kwd:v0.3.0`
+**Image:** `ghcr.io/hrodrig/kwd:v0.4.0`
 
 ### One-shot (single-pass)
 
@@ -110,7 +110,7 @@ docker run --rm \
   -v "$(pwd)/run/examples/kwd-minimal.yml:/config/kwd.yml:ro" \
   -e KUBECONFIG=/kube/config \
   -e KWD_SLACK_WEBHOOK \
-  ghcr.io/hrodrig/kwd:v0.3.0 \
+  ghcr.io/hrodrig/kwd:v0.4.0 \
   check --config /config/kwd.yml
 ```
 
@@ -127,7 +127,7 @@ docker run -d --name kwd \
   -e KUBECONFIG=/kube/config \
   -e KWD_SLACK_WEBHOOK \
   -p 127.0.0.1:8080:8080 \
-  ghcr.io/hrodrig/kwd:v0.3.0 \
+  ghcr.io/hrodrig/kwd:v0.4.0 \
   check --config /config/kwd.yml
 ```
 
@@ -149,7 +149,7 @@ docker stop kwd && docker rm kwd
 
 **Goal:** run **kwd** in-cluster with a **ServiceAccount** and **read-only** RBAC (no Helm chart in v0.1.x).
 
-**Image pin in manifests:** `ghcr.io/hrodrig/kwd:v0.3.0`
+**Image pin in manifests:** `ghcr.io/hrodrig/kwd:v0.4.0`
 
 ```bash
 kubectl apply -f run/kubernetes/manifests/namespace.yaml
@@ -159,14 +159,15 @@ kubectl apply -f run/kubernetes/manifests/configmap.yaml
 # kubectl apply -f run/kubernetes/manifests/secret.yaml
 ```
 
-Then choose **one** shape:
+Then choose shapes (CronJob file includes **two** jobs):
 
 | Shape | Manifest | ConfigMap key |
 |-------|----------|---------------|
-| Scheduled single-pass | [cronjob.yaml](run/kubernetes/manifests/cronjob.yaml) | `kwd.yml` (`interval: 0`) |
+| Scheduled readiness gate (`kwd-check`) | [cronjob.yaml](run/kubernetes/manifests/cronjob.yaml) | `kwd.yml` (`interval: 0`) — exit `0`/`1`; notify when not ready |
+| Scheduled HEALTH CHECK digest (`kwd-report`) | same | `--force-notification` — Slack/Discord even when healthy |
 | Long-running daemon + Service `:8080` | [deployment.yaml](run/kubernetes/manifests/deployment.yaml) | `kwd-daemon.yml` (`interval > 0` + `http.listen`) |
 
-Edit `resources:` in the ConfigMap for your workloads. Full walkthrough: **[run/kubernetes/README.md](run/kubernetes/README.md)**.
+Edit `resources:` in the ConfigMap for your workloads. Manual digest: `kubectl create job --from=cronjob/kwd-report …`. Full walkthrough: **[run/kubernetes/README.md](run/kubernetes/README.md)**.
 
 **[↑ Contents](#table-of-contents)**
 
